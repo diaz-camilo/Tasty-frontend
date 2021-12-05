@@ -1,0 +1,22 @@
+.tags div{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px 0px;
+
+}
+.tags input{
+    visibility: hidden;
+}
+
+.tags label span{
+    background-color: hsl(0, 79%, 72%);
+    border-radius: 00.25vw;
+    padding: 00.25vw;
+    color: hsl(0, 0%, 100%);
+}
+
+.tags label input:checked + span{
+    background-color: hsl(174, 72%, 56%);
+}
+
+

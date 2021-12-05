@@ -37,3 +37,23 @@
   }
 }
 
+header {
+  margin: 2vh 0;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  background: tomato;
+  gap: 1vw;
+  padding: 1vw;
+}
+
+main aside{
+  background: white;
+}
+
+main .recipe-listing{
+  background: white;
+}
+

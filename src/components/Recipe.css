@@ -3,11 +3,20 @@
   height: 400px;
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   position: relative;
   box-shadow: 10px 10px 30px hsl(0, 0%, 25%) ;
+  
+}
+
+.recipe:hover{
+  box-shadow: 10px 10px 30px hsl(90, 100%, 24%) ;
+
 
 }
-.recipe h2{
+
+.recipe > div{
+
   background-image: linear-gradient(hsl(0, 0%, 0%,0.9),hsl(0, 0%, 0%,0));
   color: hsl(0, 100%,100%);
   margin: 0;

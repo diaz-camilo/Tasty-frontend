@@ -24,8 +24,11 @@ export default function Recipe(props) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeve}
     >
-      <h2>{name}</h2>
-      <h4>by: {credits[0].name}</h4>
+      <div>
+        <h2>{name}</h2>
+        <h4>by: {credits[0].name}</h4>
+      </div>
+
       {isHover && (
         <div className="tags">
           {tags.map((tag) => (
