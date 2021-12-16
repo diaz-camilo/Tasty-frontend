@@ -22,3 +22,32 @@ html {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
 }
+
+/************/
+
+table,
+th,
+td {
+    border: 1px solid;
+}
+
+table {
+    margin: 0 auto;
+    border-spacing: 0;
+}
+
+th,
+td {
+    padding: 5px 10px;
+    border-top-width: 0;
+    border-left-width: 0;
+}
+
+th:last-child,
+td:last-child {
+    border-right-width: 0;
+}
+
+tr:last-child td {
+    border-bottom-width: 0;
+}
