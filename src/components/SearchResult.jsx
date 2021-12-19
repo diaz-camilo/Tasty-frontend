@@ -104,7 +104,7 @@ export default function SearchResult(props) {
   // Pagination handling
   const maxPages = () => {
     if (searchResult) {
-      return Math.ceil(searchResult.count / resultsPerPage) - 1;
+      return Math.floor(searchResult.count / resultsPerPage);
     } else {
       return 0;
     }
@@ -147,7 +147,7 @@ export default function SearchResult(props) {
         <button onClick={() => handlePageChange(1)}>next</button>
         <br />
         <label>
-          page: {pageNum}/{maxPages()}
+          page: {pageNum + 1}/{maxPages() + 1}
         </label>
         <Tags tags={allTags} handleTagClick={handleTagClick} />
       </aside>

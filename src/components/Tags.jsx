@@ -1,7 +1,9 @@
 import "./Tags.css";
+import { useSelector } from "react-redux";
 
 export default function Tags(props) {
   const { tags, handleTagClick } = props;
+  const queryTags = useSelector((state) => state.queryTags);
 
   if (props.tags === null) return <></>;
 
@@ -38,6 +40,7 @@ export default function Tags(props) {
                 id={tag.id}
                 key={tag.id}
                 value={tag.name}
+                checked={queryTags.includes(tag.name)}
                 onChange={() => props.handleTagClick(tag.name)}
               />
               <span>{tag.display_name}</span>
