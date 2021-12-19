@@ -1,6 +1,13 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import RecipeListing from "./RecipeListing";
+import styled from "styled-components";
+
+const Main = styled.main`
+  background: tomato;
+  padding: 0 1vw 1vw 1vw;
+  display: block;
+`;
 
 export default function Feed(props) {
   const HEADERS = {
@@ -48,6 +55,10 @@ export default function Feed(props) {
   }
 
   if (isLoaded) {
-    return <RecipeListing recipes={recipes} />;
+    return (
+      <Main>
+        <RecipeListing recipes={recipes} />
+      </Main>
+    );
   }
 }

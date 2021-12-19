@@ -46,7 +46,7 @@ main {
   grid-template-columns: 1fr 4fr;
   background: tomato;
   gap: 1vw;
-  padding: 1vw;
+  padding: 0 1vw 1vw 1vw;
 }
 
 main aside{

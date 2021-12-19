@@ -11,7 +11,6 @@ function App() {
     <div className="App">
       <Router>
         <Header />
-
         <Route exact path="/" component={Feed} />
         <Route path="/search/:queryText" component={SearchResult} />
         <Route exact path="/search/" component={SearchResult} />
@@ -22,3 +21,4 @@ function App() {
 }
 
 export default App;
+       

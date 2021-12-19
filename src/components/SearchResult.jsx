@@ -1,6 +1,7 @@
 import { useParams, useHistory, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 
 import Tags from "./Tags";
 import RecipeListing from "./RecipeListing";
@@ -12,6 +13,12 @@ const HEADERS = {
 const BASE_URL = "https://tasty.p.rapidapi.com/";
 
 export default function SearchResult(props) {
+  //redux
+  const dispatch = useDispatch();
+  const queryText = useSelector((state) => state.queryText);
+  const queryTags = useSelector((state) => state.queryTags);
+  const searchResult = useSelector((state) => state.searchResult);
+
   // search
   const [recipes, setRecipes] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);

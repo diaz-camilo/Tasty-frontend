@@ -1,5 +1,30 @@
 import { useHistory, Link } from "react-router-dom";
 import { useState } from "react";
+import styled from "styled-components";
+
+const AppHeader = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  padding: 0 2vw;
+  border: 1vw tomato solid;
+
+  & div {
+    display: flex;
+    align-items: center;
+  }
+
+  & li {
+    display: inline;
+    margin: 1vw;
+  }
+
+  & form {
+    display: flex;
+    gap: 1vw;
+  }
+`;
 
 export default function Header(props) {
   const history = useHistory();
@@ -14,22 +39,23 @@ export default function Header(props) {
   };
 
   return (
-    <header>
-      <h1>Recipes</h1>
-      <ul>
-        <li>
-          <Link to={"/"}>Home</Link>
-        </li>
-        <li>
-          <Link to={"/search/"}>Search</Link>
-        </li>
-      </ul>
+    <AppHeader>
+      <div>
+        <h1>Recipes</h1>
+        <ul>
+          <li>
+            <Link to={"/"}>Home</Link>
+          </li>
+          <li>
+            <Link to={"/search/"}>Search</Link>
+          </li>
+        </ul>
+      </div>
+
       <form onSubmit={handleSubmit}>
-        <label>
-          Enter querry: <input type="text" onChange={handleQuerryTextChange} />
-        </label>
+        <input type="text" onChange={handleQuerryTextChange} />
         <button>search</button>
       </form>
-    </header>
+    </AppHeader>
   );
 }
