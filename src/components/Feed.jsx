@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import RecipeListing from "./RecipeListing";
 import styled from "styled-components";
+import { HEADERS, BASE_URL } from "../globals";
+import { useDispatch, useSelector } from "react-redux";
 
 const Main = styled.main`
   background: tomato;
@@ -10,54 +12,51 @@ const Main = styled.main`
 `;
 
 export default function Feed(props) {
-  const HEADERS = {
-    "x-rapidapi-host": "tasty.p.rapidapi.com",
-    "x-rapidapi-key": process.env.REACT_APP_TASTY_API_KEY,
-  };
-  const BASE_URL = "https://tasty.p.rapidapi.com/";
+  const dispatch = useDispatch();
+  const feed = useSelector((state) => state.feed);
 
-  const [recipes, setRecipes] = useState({});
-  const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    var options = {
-      method: "GET",
-      url: `${BASE_URL}feeds/list`,
-      params: {
-        size: "20",
-        timezone: "+1100",
-        vegetarian: false,
-        from: "0",
-      },
-      headers: HEADERS,
-    };
+    if (!feed) {
+      var options = {
+        method: "GET",
+        url: `${BASE_URL}feeds/list`,
+        params: {
+          size: "20",
+          timezone: "+1100",
+          vegetarian: false,
+          from: "0",
+        },
+        headers: HEADERS,
+      };
 
-    axios
-      .request(options)
-      .then((response) => {
-        setRecipes(response.data.results[2].items);
-
-        setIsLoaded(true);
-      })
-      .catch((err) => {
-        setIsLoaded(false);
-        setError(err);
-      });
+      axios
+        .request(options)
+        .then((response) => {
+          dispatch({
+            type: "set-feed",
+            payload: response.data,
+          });
+        })
+        .catch((err) => {
+          setError(err);
+        });
+    }
   }, []);
 
   if (error) {
     return <p>{error}</p>;
   }
 
-  if (!isLoaded) {
+  if (!feed) {
     return <p>Loading Feed...</p>;
   }
 
-  if (isLoaded) {
+  if (feed) {
     return (
       <Main>
-        <RecipeListing recipes={recipes} />
+        <RecipeListing recipes={feed.results[2].items} />
       </Main>
     );
   }
