@@ -1,127 +1,144 @@
-import { useParams, useHistory, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
+
+import { HEADERS, BASE_URL } from "../globals";
 
 import Tags from "./Tags";
 import RecipeListing from "./RecipeListing";
 
-const HEADERS = {
-  "x-rapidapi-host": "tasty.p.rapidapi.com",
-  "x-rapidapi-key": process.env.REACT_APP_TASTY_API_KEY,
-};
-const BASE_URL = "https://tasty.p.rapidapi.com/";
-
 export default function SearchResult(props) {
-  //redux
-  const dispatch = useDispatch();
-  const queryText = useSelector((state) => state.queryText);
-  const queryTags = useSelector((state) => state.queryTags);
-  const searchResult = useSelector((state) => state.searchResult);
-
-  // search
-  const [recipes, setRecipes] = useState({});
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState({});
   const location = useLocation();
-
   const params = useParams();
 
-  const performTextSearch = () => {
-    var options = {
-      method: "GET",
-      url: BASE_URL + "recipes/list",
-      params: {
-        from: pageNum * resultsPerPage,
-        size: resultsPerPage,
-        tags: selectedTags.toString(),
-        q: params.queryText,
-      },
-      headers: HEADERS,
-    };
+  const [fetching, setFetching] = useState(true);
 
-    axios
-      .request(options)
-      .then((response) => {
-        setRecipes(response.data);
-        setIsLoaded(true);
-      })
-      .catch((err) => {
-        setIsLoaded(false);
-        setError(err);
-      });
-  };
+  //redux
+  const dispatch = useDispatch();
 
-  // Tags handling
-  const [tags, setTags] = useState(null);
-  const [selectedTags, setSelectedTags] = useState([]);
+  const searchResult = useSelector((state) => state.searchResult);
+  const queryText = useSelector((state) => state.queryText);
+  const allTags = useSelector((state) => state.allTags);
+  const queryTags = useSelector((state) => state.queryTags);
+  const isLoaded = useSelector((state) => state.isLoaded);
+  const pageNum = useSelector((state) => state.pageNum);
+  const resultsPerPage = useSelector((state) => state.resultsPerPage);
 
-  // Load all tags from API
-  useEffect(() => {
-    var options = {
-      method: "GET",
-      url: `${BASE_URL}tags/list`,
-      headers: HEADERS,
-    };
-    axios
-      .request(options)
-      .then((res) => {
-        setTags(res.data.results);
-      })
-      .catch((err) => {});
-  }, []);
+  // search
 
-  function handleTagClick(tagName) {
-    if (selectedTags.includes(tagName)) {
-      const updatedSelectedTags = [...selectedTags];
-      const tagIndex = updatedSelectedTags.findIndex((x) => x === tagName);
-      updatedSelectedTags.splice(tagIndex, 1);
-      setSelectedTags(updatedSelectedTags);
-    } else {
-      setSelectedTags([...selectedTags, tagName]);
+  function performTextSearch(
+    _queryText,
+    _pageNum,
+    _resultsPerPage,
+    _queryTags
+  ) {
+    if (
+      !isLoaded ||
+      params.queryText !== queryText ||
+      pageNum !== _pageNum ||
+      resultsPerPage !== _resultsPerPage ||
+      queryTags.toString() !== _queryTags.toString()
+    ) {
+      setFetching(true);
+      dispatch({ type: "set-query-text", payload: params.queryText });
+      dispatch({ type: "set-query-tags", payload: _queryTags });
+      dispatch({ type: "set-results-per-page", payload: _resultsPerPage });
+      dispatch({ type: "set-page-num", payload: _pageNum });
+      var options = {
+        method: "GET",
+        url: BASE_URL + "recipes/list",
+        params: {
+          from: _pageNum * _resultsPerPage,
+          size: _resultsPerPage,
+          tags: _queryTags.toString(),
+          q: params.queryText,
+        },
+        headers: HEADERS,
+      };
+      axios
+        .request(options)
+        .then((response) => {
+          dispatch({ type: "set-search-results", payload: response.data });
+          dispatch({ type: "set-is-loaded", payload: true });
+          setFetching(false);
+        })
+        .catch((err) => {
+          dispatch({ type: "set-is-loaded", payload: false });
+          console.log(err);
+        });
     }
   }
-  // END of tag handling
+
+  // Tags handling
+
+  // retrieve tags from store or load from API
+  function loadTags() {
+    if (allTags === null) {
+      var options = {
+        method: "GET",
+        url: `${BASE_URL}tags/list`,
+        headers: HEADERS,
+      };
+      axios
+        .request(options)
+        .then((res) => {
+          dispatch({ type: "set-all-tags", payload: res.data.results });
+        })
+        .catch((err) => {});
+    }
+  }
+
+  function handleTagClick(tagName) {
+    let updatedSelectedTags = [...queryTags];
+    if (queryTags.includes(tagName)) {
+      const tagIndex = updatedSelectedTags.findIndex((x) => x === tagName);
+      updatedSelectedTags.splice(tagIndex, 1);
+    } else {
+      updatedSelectedTags.push(tagName);
+    }
+    performTextSearch(queryText, 0, resultsPerPage, updatedSelectedTags);
+  }
+  // END of tags handling
 
   // Pagination handling
-  const [resultsPerPage, setResultsPerPage] = useState(20);
-  const [pageNum, setPageNum] = useState(0);
-  const maxPages = Math.ceil(recipes.count / resultsPerPage);
+  const maxPages = () => {
+    if (searchResult) {
+      return Math.ceil(searchResult.count / resultsPerPage) - 1;
+    } else {
+      return 0;
+    }
+  };
 
   function handleResultsPerPageChange(ev) {
-    setResultsPerPage(ev.target.value);
+    performTextSearch(queryText, pageNum, ev.target.value, queryTags);
   }
 
   function handlePageChange(increment) {
     const newPage = pageNum + increment;
-    if (!(newPage < 0 || newPage > maxPages)) {
-      setIsLoaded(false);
-      setPageNum(newPage);
+    if (!(newPage < 0 || newPage > maxPages())) {
+      performTextSearch(queryText, newPage, resultsPerPage, queryTags);
     }
   }
   // END of paggination handling
 
   // Component did update?
   useEffect(() => {
-    setIsLoaded(false);
-    performTextSearch();
-  }, [
-    pageNum,
-    resultsPerPage,
-    selectedTags,
-    params.querryText,
-    location.pathname,
-  ]);
+    loadTags();
+    performTextSearch(queryText, pageNum, resultsPerPage, queryTags);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
 
   return (
     <main>
       <aside>
+        {fetching && <p>Fetching...</p>}
         <input
           type="range"
           min="10"
           max="40"
           step="5"
-          defaultValue="20"
+          defaultValue={resultsPerPage}
           onChange={handleResultsPerPageChange}
         />
         <label>{resultsPerPage}</label>
@@ -130,13 +147,13 @@ export default function SearchResult(props) {
         <button onClick={() => handlePageChange(1)}>next</button>
         <br />
         <label>
-          page: {pageNum}/{maxPages}
+          page: {pageNum}/{maxPages()}
         </label>
-        <Tags tags={tags} handleTagClick={handleTagClick} />
+        <Tags tags={allTags} handleTagClick={handleTagClick} />
       </aside>
 
       {isLoaded ? (
-        <RecipeListing recipes={recipes.results} />
+        <RecipeListing recipes={searchResult.results} />
       ) : (
         <p>Loading...</p>
       )}

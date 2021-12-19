@@ -1,6 +1,7 @@
 import { useHistory, Link } from "react-router-dom";
 import { useState } from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
 const AppHeader = styled.header`
   display: flex;
@@ -29,12 +30,13 @@ const AppHeader = styled.header`
 export default function Header(props) {
   const history = useHistory();
   const [querryText, setQuerryText] = useState("");
+  const dispatch = useDispatch();
 
   const handleQuerryTextChange = (ev) => setQuerryText(ev.target.value);
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-
+    dispatch({ type: "set-page-num", payload: 0 });
     history.push(`/search/${querryText}`);
   };
 

@@ -2,9 +2,14 @@ import { createStore } from "redux";
 
 const initialState = {
   searchResult: null,
-  queryText: "",
+  queryText: null,
+  allTags: null,
   queryTags: [],
   favourites: [],
+  isLoaded: false,
+  pageNum: 0,
+  resultsPerPage: 20,
+  feed: null,
 };
 
 function reducer(state = initialState, action) {
@@ -32,10 +37,35 @@ function reducer(state = initialState, action) {
         ...state,
         queryText: action.payload,
       };
-    case "set-tags":
+    case "set-query-tags":
       return {
         ...state,
         queryTags: action.payload,
+      };
+    case "set-page-num":
+      return {
+        ...state,
+        pageNum: action.payload,
+      };
+    case "set-results-per-page":
+      return {
+        ...state,
+        resultsPerPage: action.payload,
+      };
+    case "set-all-tags":
+      return {
+        ...state,
+        allTags: action.payload,
+      };
+    case "set-is-loaded":
+      return {
+        ...state,
+        isLoaded: action.payload,
+      };
+    case "set-feed":
+      return {
+        ...state,
+        feed: action.payload,
       };
     default:
       return state;
