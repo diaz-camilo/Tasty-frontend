@@ -12,7 +12,7 @@ export default function SearchResult(props) {
   const location = useLocation();
   const params = useParams();
 
-  const [fetching, setFetching] = useState(true);
+  const [fetching, setFetching] = useState(false);
 
   //redux
   const dispatch = useDispatch();
