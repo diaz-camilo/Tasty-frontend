@@ -8,7 +8,7 @@ const AppHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
-  padding: 1vw 2vw;
+  padding: 0 2vw;
   background-color: #282c34;
   color: hsl(0, 0%, 100%);
 
@@ -58,7 +58,9 @@ export default function Header(props) {
   return (
     <AppHeader>
       <div>
-        <h1>Tasty recipes</h1>
+        <Link to={"/"}>
+          <h1>Tasty recipes</h1>
+        </Link>
         <ul>
           <li>
             <Link to={"/"}>Home</Link>

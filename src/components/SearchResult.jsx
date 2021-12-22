@@ -133,6 +133,7 @@ export default function SearchResult(props) {
     <main>
       <aside>
         {fetching && <p>Fetching...</p>}
+        <label>Results per page</label>
         <input
           type="range"
           min="10"
@@ -142,13 +143,13 @@ export default function SearchResult(props) {
           onChange={handleResultsPerPageChange}
         />
         <label>{resultsPerPage}</label>
-        <br />
-        <button onClick={() => handlePageChange(-1)}>previous</button>
+        <hr />
+        <label>
+          page: {pageNum + 1}/{maxPages() + 1}{" "}
+        </label>
+        <button onClick={() => handlePageChange(-1)}>previous</button>{" "}
         <button onClick={() => handlePageChange(1)}>next</button>
         <br />
-        <label>
-          page: {pageNum + 1}/{maxPages() + 1}
-        </label>
         <Tags tags={allTags} handleTagClick={handleTagClick} />
       </aside>
 

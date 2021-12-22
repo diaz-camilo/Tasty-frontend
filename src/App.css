@@ -2,6 +2,7 @@
   text-align: center;
   background-color: hsl(0, 0%, 94%);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+
 }
 
 
@@ -48,7 +49,6 @@ header {
 main {
   display: grid;
   grid-template-columns: 1fr 4fr;
-  /* background: tomato; */
   gap: 1vw;
   padding: 1vw;
 }
