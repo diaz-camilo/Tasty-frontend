@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import RecipeListing from "./RecipeListing";
+import FeedListing from "./FeedListing";
 import styled from "styled-components";
 import { HEADERS, BASE_URL } from "../globals";
 import { useDispatch, useSelector } from "react-redux";
@@ -56,7 +57,7 @@ export default function Feed(props) {
   if (feed) {
     return (
       <Main>
-        <RecipeListing recipes={feed.results[2].items} />
+        <FeedListing feed={feed} />
       </Main>
     );
   }
