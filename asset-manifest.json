@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/Tasty-frontend/static/css/main.65e27adc.chunk.css",
-    "main.js": "/Tasty-frontend/static/js/main.7b4fd4bc.chunk.js",
-    "main.js.map": "/Tasty-frontend/static/js/main.7b4fd4bc.chunk.js.map",
+    "main.css": "/Tasty-frontend/static/css/main.44aff463.chunk.css",
+    "main.js": "/Tasty-frontend/static/js/main.38c3685e.chunk.js",
+    "main.js.map": "/Tasty-frontend/static/js/main.38c3685e.chunk.js.map",
     "runtime-main.js": "/Tasty-frontend/static/js/runtime-main.121e42a6.js",
     "runtime-main.js.map": "/Tasty-frontend/static/js/runtime-main.121e42a6.js.map",
-    "static/js/2.91405d65.chunk.js": "/Tasty-frontend/static/js/2.91405d65.chunk.js",
-    "static/js/2.91405d65.chunk.js.map": "/Tasty-frontend/static/js/2.91405d65.chunk.js.map",
+    "static/js/2.b59f136a.chunk.js": "/Tasty-frontend/static/js/2.b59f136a.chunk.js",
+    "static/js/2.b59f136a.chunk.js.map": "/Tasty-frontend/static/js/2.b59f136a.chunk.js.map",
     "static/js/3.3e63a65c.chunk.js": "/Tasty-frontend/static/js/3.3e63a65c.chunk.js",
     "static/js/3.3e63a65c.chunk.js.map": "/Tasty-frontend/static/js/3.3e63a65c.chunk.js.map",
     "index.html": "/Tasty-frontend/index.html",
-    "static/css/main.65e27adc.chunk.css.map": "/Tasty-frontend/static/css/main.65e27adc.chunk.css.map",
-    "static/js/2.91405d65.chunk.js.LICENSE.txt": "/Tasty-frontend/static/js/2.91405d65.chunk.js.LICENSE.txt"
+    "static/css/main.44aff463.chunk.css.map": "/Tasty-frontend/static/css/main.44aff463.chunk.css.map",
+    "static/js/2.b59f136a.chunk.js.LICENSE.txt": "/Tasty-frontend/static/js/2.b59f136a.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.121e42a6.js",
-    "static/js/2.91405d65.chunk.js",
-    "static/css/main.65e27adc.chunk.css",
-    "static/js/main.7b4fd4bc.chunk.js"
+    "static/js/2.b59f136a.chunk.js",
+    "static/css/main.44aff463.chunk.css",
+    "static/js/main.38c3685e.chunk.js"
   ]
 }
