@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import RecipeListing from "./RecipeListing";
 import FeedListing from "./FeedListing";
 import styled from "styled-components";
 import { HEADERS, BASE_URL } from "../globals";
 import { useDispatch, useSelector } from "react-redux";
 
 const Main = styled.main`
-  background: tomato;
-  padding: 0 1vw 1vw 1vw;
+  padding: 1vw;
   display: block;
 `;
 

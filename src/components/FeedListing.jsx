@@ -9,6 +9,10 @@ const FeedListingContainer = styled.div`
   background-color: white;
   gap: 3vw;
   padding: 3vw;
+
+  & h1 {
+    font-size: calc(10px + 4vmin);
+  }
 `;
 
 const Trending = styled.div`
@@ -26,7 +30,6 @@ export default function FeedListing(props) {
   return (
     <FeedListingContainer>
       <div>
-        <h1>{props.feed.results[0].type}</h1>
         <Featured recipe={props.feed.results[0].item} />
       </div>
       <div>

@@ -32,7 +32,7 @@ const Header = styled.div`
   & table {
     position: absolute;
     top: 1vw;
-    left: 1vw;
+    right: 1vw;
   }
 `;
 const Video = styled.div`

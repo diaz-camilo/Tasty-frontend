@@ -8,8 +8,23 @@ const AppHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
-  padding: 0 2vw;
-  border: 1vw tomato solid;
+  padding: 1vw 2vw;
+  background-color: #282c34;
+  color: hsl(0, 0%, 100%);
+
+  & a {
+    color: hsl(0, 0%, 100%);
+    font-size: calc(10px + 1.5vmin);
+    text-decoration: none;
+  }
+
+  & input {
+    font-size: calc(10px + 1.5vmin);
+  }
+
+  & a:hover {
+    color: lightcoral;
+  }
 
   & div {
     display: flex;
@@ -43,7 +58,7 @@ export default function Header(props) {
   return (
     <AppHeader>
       <div>
-        <h1>Recipes</h1>
+        <h1>Tasty recipes</h1>
         <ul>
           <li>
             <Link to={"/"}>Home</Link>
@@ -59,7 +74,7 @@ export default function Header(props) {
 
       <form onSubmit={handleSubmit}>
         <input type="text" onChange={handleQuerryTextChange} />
-        <button>search</button>
+        <input type="button" value="search" onClick={handleSubmit} />
       </form>
     </AppHeader>
   );

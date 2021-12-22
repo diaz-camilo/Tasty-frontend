@@ -1,7 +1,9 @@
 .App {
   text-align: center;
   background-color: hsl(0, 0%, 94%);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
 
 .App-logo {
   height: 40vmin;
@@ -23,6 +25,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  
 }
 
 .App-link {
@@ -45,9 +48,9 @@ header {
 main {
   display: grid;
   grid-template-columns: 1fr 4fr;
-  background: tomato;
+  /* background: tomato; */
   gap: 1vw;
-  padding: 0 1vw 1vw 1vw;
+  padding: 1vw;
 }
 
 main aside{
@@ -56,5 +59,9 @@ main aside{
 
 main .recipe-listing{
   background: white;
+}
+
+a{
+  text-decoration: none;
 }
 

@@ -6,9 +6,12 @@ import { HEADERS, BASE_URL } from "../globals";
 import { useSelector } from "react-redux";
 
 const Main = styled.main`
-  background: tomato;
-  padding: 0 1vw 1vw 1vw;
+  ${
+    "" /* background: tomato;
+  padding: 0 1vw 1vw 1vw; */
+  }
   display: block;
+  height: 90vh;
 `;
 
 export default function Faves(props) {
