@@ -51,6 +51,9 @@ export default function Header(props) {
           <li>
             <Link to={"/search/"}>Search</Link>
           </li>
+          <li>
+            <Link to={"/faves/"}>Faves</Link>
+          </li>
         </ul>
       </div>
 

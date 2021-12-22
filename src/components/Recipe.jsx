@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useFavourites } from "../hooks/api";
+import { useSelector } from "react-redux";
 
 const Tags = styled.div`
   color: hsla(0, 0%, 100%);
@@ -32,6 +34,14 @@ const RecipeCard = styled.div`
   &:hover ${Tags} {
     display: flex;
   }
+
+  & .fav {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    color: red;
+    cursor: pointer;
+  }
 `;
 
 const Header = styled.div`
@@ -50,10 +60,15 @@ const Tag = styled.span`
 
 export default function Recipe(props) {
   const { thumbnail_url, credits, name, tags, id } = props.recipe;
+  const faves = useSelector((state) => state.faves);
 
+  const { toggleFavById } = useFavourites();
   return (
-    <Link to={`/details/${id}`}>
-      <RecipeCard bgImg={thumbnail_url}>
+    <RecipeCard bgImg={thumbnail_url}>
+      <div className="fav material-icons red" onClick={() => toggleFavById(id)}>
+        {faves.includes(id) ? "favorite" : "favorite_border"}
+      </div>
+      <Link to={`/details/${id}`}>
         <Header>
           <h2>{name}</h2>
           <h4>by: {credits[0].name}</h4>
@@ -63,7 +78,7 @@ export default function Recipe(props) {
             <Tag key={tag.id}>{tag.display_name}</Tag>
           ))}
         </Tags>
-      </RecipeCard>
-    </Link>
+      </Link>
+    </RecipeCard>
   );
 }

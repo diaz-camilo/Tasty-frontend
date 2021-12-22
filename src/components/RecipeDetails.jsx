@@ -11,12 +11,17 @@ const Container = styled.div`
     "header header ."
     "content video related";
   gap: 1vw;
-  background-color: tomato;
+  ${"" /* background-color: tomato; */}
   padding: 0 1vw 1vw 1vw;
   grid-template-rows: auto 1fr;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 88vh;
+  background: white;
 
   & * {
     background: white;
+    overflow-y: auto;
   }
 `;
 
@@ -32,14 +37,17 @@ const Header = styled.div`
 `;
 const Video = styled.div`
   grid-area: video;
+  border: 1px solid black;
 `;
 const Content = styled.div`
   grid-area: content;
   text-align: left;
+  border: 1px solid black;
 `;
 
 const Related = styled.div`
   grid-area: related;
+  border: 1px solid black;
 `;
 
 export default function RecipeDetails(props) {
@@ -125,42 +133,44 @@ export default function RecipeDetails(props) {
             {user_ratings.count_negative} | Rating:{" "}
             {Math.round(user_ratings.score * 100)}%
           </h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Calories</th>
-                <th>{nutrition.calories}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>carbohydrates</td>
-                <td>{nutrition.carbohydrates}</td>
-              </tr>
-              <tr>
-                <td>sugar</td>
-                <td>{nutrition.sugar}</td>
-              </tr>
-              <tr>
-                <td>fat</td>
-                <td>{nutrition.fat}</td>
-              </tr>
-              <tr>
-                <td>protein</td>
-                <td>{nutrition.protein}</td>
-              </tr>
-              <tr>
-                <td>fiber</td>
-                <td>{nutrition.fiber}</td>
-              </tr>
-            </tbody>
-          </table>
+          {nutrition.calories && (
+            <table>
+              <thead>
+                <tr>
+                  <th>Calories</th>
+                  <th>{nutrition.calories}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>carbohydrates</td>
+                  <td>{nutrition.carbohydrates}</td>
+                </tr>
+                <tr>
+                  <td>sugar</td>
+                  <td>{nutrition.sugar}</td>
+                </tr>
+                <tr>
+                  <td>fat</td>
+                  <td>{nutrition.fat}</td>
+                </tr>
+                <tr>
+                  <td>protein</td>
+                  <td>{nutrition.protein}</td>
+                </tr>
+                <tr>
+                  <td>fiber</td>
+                  <td>{nutrition.fiber}</td>
+                </tr>
+              </tbody>
+            </table>
+          )}
         </Header>
         <Video>
           <video controls width="480" src={original_video_url}></video>
+          {description && <p>{description}</p>}
         </Video>
         <Content>
-          {description && <p>Description: {description}</p>}
           <div className="instructions">
             <h3>Instructions</h3>
             {instructions.map((ins) => (
@@ -176,7 +186,12 @@ export default function RecipeDetails(props) {
           </div>
         </Content>
         <Related>
-          {related && <RelatedRecipeListing recipes={related} />}
+          {related && (
+            <>
+              <h3>Related</h3>
+              <RelatedRecipeListing recipes={related} />
+            </>
+          )}
         </Related>
       </Container>
     );

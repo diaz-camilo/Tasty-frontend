@@ -5,7 +5,7 @@ const initialState = {
   queryText: null,
   allTags: null,
   queryTags: [],
-  favourites: [],
+  faves: [],
   isLoaded: false,
   pageNum: 0,
   resultsPerPage: 20,
@@ -14,18 +14,10 @@ const initialState = {
 
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case "add-to-faves":
+    case "set-faves":
       return {
         ...state,
-        favourites: [...state.favourites, action.payload],
-      };
-    case "remove-from-faves":
-      const index = state.favourites.indexOf(action.payload);
-      const favourites = [...state.favourites];
-      favourites.splice(index, 1);
-      return {
-        ...state,
-        favourites,
+        faves: action.payload,
       };
     case "set-search-results":
       return {
@@ -72,8 +64,15 @@ function reducer(state = initialState, action) {
   }
 }
 
+function init() {
+  const data = localStorage.getItem("faves");
+  return data ? JSON.parse(data) : [];
+}
+
 export const store = createStore(
   reducer,
+  { ...initialState, faves: init() }, // Initialise favourites from local storage
+  // suscribe
   window.__REDUX_DEVTOOLS_EXTENSION__ &&
     window.__REDUX_DEVTOOLS_EXTENSION__({ trace: true })
 );
