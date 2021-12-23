@@ -18,7 +18,7 @@ The project mainly uses React along with other JS libraries like:
 * [Axios](https://axios-http.com/) for API requests.
 * [Styled Components](https://styled-components.com/) for styling (CSS in JS).
 * [Redux](https://redux.js.org/) for global state management.
-* [React-router-dom](https://github.com/remix-run/react-router#readme)for routing.
+* [React-router-dom](https://github.com/remix-run/react-router#readme) for routing.
 
 ## Wish List
 
