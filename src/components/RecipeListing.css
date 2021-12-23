@@ -1,8 +1,0 @@
-.recipe-listing{
-    display: flex;
-    gap: 4vw 1vw;
-    padding: 2vw 1vw;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    justify-content: space-evenly;
-}

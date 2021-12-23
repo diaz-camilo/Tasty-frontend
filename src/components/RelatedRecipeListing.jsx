@@ -1,5 +1,3 @@
-import Recipe from "./Recipe";
-import "./RecipeListing.css";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 

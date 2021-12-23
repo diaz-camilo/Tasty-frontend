@@ -2,7 +2,7 @@ import "./Tags.css";
 import { useSelector } from "react-redux";
 
 export default function Tags(props) {
-  const { tags, handleTagClick } = props;
+  const { tags } = props;
   const queryTags = useSelector((state) => state.queryTags);
 
   if (props.tags === null) return <></>;
@@ -21,7 +21,7 @@ export default function Tags(props) {
 
   categories.forEach((cat, catIndex) => {
     const tempCaterogyGroup = [];
-    tags.forEach((tag, tagIndex) => {
+    tags.forEach((tag) => {
       if (cat === tag.type) tempCaterogyGroup.push(tag);
     });
     sortedTags.push(tempCaterogyGroup);

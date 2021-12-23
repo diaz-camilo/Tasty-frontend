@@ -4,6 +4,8 @@ import axios from "axios";
 import { HEADERS, BASE_URL } from "../globals";
 import styled from "styled-components";
 import RelatedRecipeListing from "./RelatedRecipeListing";
+import { useFavourites } from "../hooks/api";
+import { useSelector } from "react-redux";
 
 const Container = styled.div`
   display: grid;
@@ -16,7 +18,6 @@ const Container = styled.div`
   grid-template-rows: auto 1fr;
   grid-template-columns: 2fr 1fr auto;
   margin: 1vw auto;
-  ${"" /* height: 85vh; */}
   background: white;
 
   & div {
@@ -26,18 +27,9 @@ const Container = styled.div`
 
 const Header = styled.div`
   grid-area: header;
-
-  ${
-    "" /* & table {
-    position: absolute;
-    top: 1vw;
-    right: 1vw;
-  } */
-  }
 `;
 const Video = styled.div`
   grid-area: video;
-  ${"" /* border: 1px solid black; */}
   display: flex;
   flex-direction: column;
 
@@ -49,7 +41,6 @@ const Video = styled.div`
 const Content = styled.div`
   grid-area: content;
   text-align: left;
-  ${"" /* border: 1px solid black; */}
   padding: 1rem;
   text-align: justify;
 `;
@@ -64,8 +55,11 @@ export default function RecipeDetails(props) {
   const params = useParams();
   const location = useLocation();
   const [recipe, setRecipe] = useState({});
+  const [related, setRelated] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [error, setError] = useState(null);
+  const faves = useSelector((state) => state.faves);
+  const { toggleFavById } = useFavourites();
 
   const {
     name,
@@ -75,8 +69,6 @@ export default function RecipeDetails(props) {
     cook_time_minutes,
     instructions,
     nutrition,
-    thumbnail_url,
-    thumbnail_alt_text,
     id,
     original_video_url,
     user_ratings,
@@ -89,7 +81,6 @@ export default function RecipeDetails(props) {
     sortedInstructions.sort((a, b) => a.position - b.position);
   }
 
-  const [related, setRelated] = useState(null);
   useEffect(() => {
     const recipeOptions = {
       method: "GET",
@@ -128,12 +119,20 @@ export default function RecipeDetails(props) {
   if (!isLoaded) {
     return <p>Loading...</p>;
   } else if (error) {
-    return <p>{error}</p>;
+    return <p>Something went wrong, please try again :(</p>;
   } else {
     return (
       <Container>
         <Header>
-          <h1>{name}</h1>
+          <h1>
+            <div
+              className="fav material-icons"
+              onClick={() => toggleFavById(id)}
+            >
+              {faves.includes(id) ? "favorite" : "favorite_border"}
+            </div>
+            {"  " + name}
+          </h1>
           <h2>By: {credits.map((auth) => auth.name + ", ")}</h2>
           <h3>
             Servings: {num_servings} | {cook_time_minutes} minutes

@@ -1,5 +1,4 @@
 import FeedItem from "./FeedItem";
-import "./RecipeListing.css";
 import Featured from "./Featured";
 import styled from "styled-components";
 
@@ -29,9 +28,7 @@ export default function FeedListing(props) {
   console.log(props);
   return (
     <FeedListingContainer>
-      <div>
-        <Featured recipe={props.feed.results[0].item} />
-      </div>
+      <Featured recipe={props.feed.results[0].item} />
       <div>
         <h1>{props.feed.results[2].name}</h1>
         <Trending>{feed}</Trending>

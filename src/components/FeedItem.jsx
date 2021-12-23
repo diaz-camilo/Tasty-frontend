@@ -13,7 +13,7 @@ const Footer = styled.div`
   width: 100%;
 `;
 
-const RecipeCard = styled.div`
+const FeedItemContainer = styled.div`
   width: 180px;
   height: 180px;
   background-image: url(${(props) => props.bgImg});
@@ -41,12 +41,12 @@ const RecipeCard = styled.div`
 `;
 
 export default function FeedItem(props) {
-  const { thumbnail_url, credits, name, tags, id } = props.recipe;
+  const { thumbnail_url, name, id } = props.recipe;
   const faves = useSelector((state) => state.faves);
 
   const { toggleFavById } = useFavourites();
   return (
-    <RecipeCard bgImg={thumbnail_url}>
+    <FeedItemContainer bgImg={thumbnail_url}>
       <div className="fav material-icons" onClick={() => toggleFavById(id)}>
         {faves.includes(id) ? "favorite" : "favorite_border"}
       </div>
@@ -55,6 +55,6 @@ export default function FeedItem(props) {
           <h4>{name}</h4>
         </Footer>
       </Link>
-    </RecipeCard>
+    </FeedItemContainer>
   );
 }

@@ -1,5 +1,15 @@
 import Recipe from "./Recipe";
-import "./RecipeListing.css";
+import styled from "styled-components";
+
+const RecipeListingContainer = styled.div`
+  display: flex;
+  gap: 4vw 1vw;
+  padding: 2vw 1vw;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: space-evenly;
+  background-color: white;
+`;
 
 function RecipeListing(props) {
   const recipes = props.recipes.map((recipe) => (
@@ -7,7 +17,7 @@ function RecipeListing(props) {
   ));
 
   console.log(props);
-  return <div className="recipe-listing">{recipes}</div>;
+  return <RecipeListingContainer>{recipes}</RecipeListingContainer>;
 }
 
 export default RecipeListing;
