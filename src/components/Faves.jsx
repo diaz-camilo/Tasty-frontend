@@ -16,23 +16,24 @@ export default function Faves(props) {
   const [faveRecipes, setFaveRecipes] = useState([]);
 
   useEffect(() => {
-    async function fetchAllRecipes() {
-      let outcome = await Promise.all(
-        faves.map(async (id) => {
-          const recipeOptions = {
-            method: "GET",
-            url: `${BASE_URL}recipes/detail`,
-            params: { id: id },
-            headers: HEADERS,
-          };
-          const response = await axios.request(recipeOptions);
-          return response.data;
+    const requests = [];
+    faves.forEach((id) => {
+      const recipeOptions = {
+        method: "GET",
+        url: `${BASE_URL}recipes/detail`,
+        params: { id: id },
+        headers: HEADERS,
+      };
+      requests.push(axios.request(recipeOptions));
+
+      axios.all(requests).then(
+        axios.spread((...responses) => {
+          const transformedResponses = responses.map((res) => res.data);
+          console.log("responses", transformedResponses);
+          setFaveRecipes(transformedResponses);
         })
       );
-      setFaveRecipes(outcome);
-    }
-
-    fetchAllRecipes();
+    });    
   }, [faves]);
 
   if (error) {
