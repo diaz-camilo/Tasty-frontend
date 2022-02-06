@@ -4,6 +4,7 @@ import RecipeListing from "./RecipeListing";
 import styled from "styled-components";
 import { HEADERS, BASE_URL } from "../globals";
 import { useSelector } from "react-redux";
+import * as rax from "retry-axios";
 
 const Main = styled.main`
   display: block;
@@ -14,30 +15,56 @@ export default function Faves(props) {
   const faves = useSelector((state) => state.faves);
   const [error, setError] = useState(null);
   const [faveRecipes, setFaveRecipes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
+    rax.attach();
+    const config = {
+      headers: HEADERS,
+      method: "GET",
+      url: `${BASE_URL}recipes/detail`,
+      timeout: 100000,
+    };
     const requests = [];
     faves.forEach((id) => {
       const recipeOptions = {
-        method: "GET",
-        url: `${BASE_URL}recipes/detail`,
-        params: { id: id },
-        headers: HEADERS,
+        ...config,
+        params: { id },
+        raxConfig: {
+          retry: 4, // number of retry when facing 4xx or 5xx
+          noResponseRetries: 5, // number of retry when facing connection error
+          retryDelay: Math.ceil(Math.random() * 10000),
+          onRetryAttempt: (err) => {
+            const cfg = rax.getConfig(err);
+            console.log(
+              `Retry attempt #${cfg.currentRetryAttempt} for ID=${id}` // track current trial
+            );
+          },
+        },
       };
       requests.push(axios.request(recipeOptions));
+    });
 
-      axios.all(requests).then(
-        axios.spread((...responses) => {
-          const transformedResponses = responses.map((res) => res.data);
-          console.log("responses", transformedResponses);
-          setFaveRecipes(transformedResponses);
-        })
-      );
-    });    
+    async function fetchAllFavourites() {
+      const allFaves = await Promise.allSettled(requests);
+      const loadedRecipes = allFaves.map((result) => {
+        if (result.status === "fulfilled") {
+          return result.value.data;
+        } else {
+          setError(true);
+          return false;
+        }
+      });
+      console.log(loadedRecipes);
+      setFaveRecipes(loadedRecipes.filter((x) => x));
+      setIsLoading(false);
+    }
+    fetchAllFavourites();
   }, [faves]);
 
-  if (error) {
-    return <p>{error.toString()}</p>;
+  if (isLoading) {
+    return <p>Loading ...</p>;
   }
 
   if (!faveRecipes.length) {
@@ -46,6 +73,7 @@ export default function Faves(props) {
     return (
       <Main>
         <h1>Favourites</h1>
+        {error && <p>Some recipes could not load :( </p>}
         <RecipeListing recipes={faveRecipes} />
       </Main>
     );
